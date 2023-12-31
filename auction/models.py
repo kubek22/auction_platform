@@ -19,4 +19,4 @@ class Auction(models.Model):
     end_time = models.DateTimeField()
     entry_price = models.DecimalField(decimal_places=2, max_digits=10)
     #currency
-    active = models.BooleanField()
+    active = models.BooleanField(default=True)
