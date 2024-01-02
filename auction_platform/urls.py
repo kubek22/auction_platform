@@ -22,6 +22,6 @@ from auction_platform import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('auction/', include('auction.urls')),
-    #path('user/', include('user.urls')),
+    path('user/', include('user.urls')),
     path('', views.home, name='home'),
 ]
