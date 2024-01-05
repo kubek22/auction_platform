@@ -18,4 +18,5 @@ class RegisterForm(UserCreationForm):
             email=self.cleaned_data['email'],
             password=self.cleaned_data['password1']
         )
+        user.save()
         return user

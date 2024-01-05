@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+    {% include 'messages.html' %}
     <p>Create a new account</p>
     <form method="post">
         {% csrf_token %}
         {{ form }}
-        <button type="submit">Send</button>
+        <input type="submit" value="Send">
     </form>
 {% endblock %}
