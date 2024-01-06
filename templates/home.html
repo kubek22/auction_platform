@@ -3,4 +3,13 @@
     <p>home page content</p>
     pasek wyszukiwania
     wypisanie losowych ofert
+
+    {% if user.is_authenticated %}
+      Hi {{ user.username }}!
+    {% else %}
+      <p>You are not logged in</p>
+      <a href="{% url 'login' %}">Log In</a>
+    {% endif %}
+
 {% endblock %}
+

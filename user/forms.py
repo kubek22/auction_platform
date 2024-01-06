@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from user.models import User
 
@@ -20,3 +20,9 @@ class RegisterForm(UserCreationForm):
         )
         user.save()
         return user
+
+
+class LogInForm(forms.Form):
+    username = forms.CharField(max_length=64)
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
