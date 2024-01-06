@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from user.forms import RegisterForm, LogInForm
@@ -37,18 +37,15 @@ def login_user(request):
         form = LogInForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data["username"]
-            email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
-            user = authenticate(request, username=username, email=email, password=password)
+            user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Logged in')
-                # TODO
-                # success login
+                # TODO success login
             else:
                 messages.info(request, 'Not logged in')
-                # TODO
-                # logging in not successful
+                # TODO logging in not successful
         else:
             messages.info(request, 'The form is not valid')
     else:
@@ -59,6 +56,7 @@ def login_user(request):
     return render(request, 'registration/login.html', context)
 
 
+# alternative version
 def userLoginPage(request):
     form = LogInForm(request.POST)
 
@@ -92,3 +90,8 @@ def userLoginPage(request):
     print('render')
 
     return render(request, 'registration/login.html', context)
+
+
+def logout_user(request):
+    logout(request)
+    return render(request, 'registration/logout.html')
