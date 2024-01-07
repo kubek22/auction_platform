@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    {% include 'messages.html' %}
+    <p>Add a new item to your account</p>
+    <form method="post" enctype= multipart/form-data>
+        {% csrf_token %}
+        {{ form.as_div }}
+        <input type="submit" value="Add">
+    </form>
+{% endblock %}
