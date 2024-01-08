@@ -40,4 +40,17 @@ def add_item(request):
 @login_required
 def my_items(request):
     user = request.user
-    items = Item.objects.get(seller_id=user.id)
+    items = Item.objects.filter(seller_id=user.id, on_auction=False)
+    items_on_auctions = Item.objects.filter(seller_id=user.id, on_auction=True)
+    context = {'items': items,
+               'items_on_auctions': items_on_auctions}
+    return render(request, 'my_items.html', context)
+
+
+@login_required
+def show_item(request, item_id):
+    user = request.user
+    item = Item.objects.get(seller_id=user.id, id=item_id)
+    context = {'item': item}
+    return render(request, 'show_item.html', context)
+

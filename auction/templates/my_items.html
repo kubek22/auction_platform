@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3>All your items, that are not on auctions.</h3>
+    <table>
+        {% for item in items %}
+        <tr>
+            <td>
+                <a href="{{ item.id }}">
+                    {{ item.name }}
+                </a>
+            </td>
+            <td>
+                <img src="{{ item.photo.url }}" alt="photo">
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>All your items on auctions.</h3>
+    <table>
+        {% for item in items_on_auctions %}
+        <tr>
+            <td>
+                <a href="{{ item.id }}">
+                    {{ item.name }}
+                </a>
+            </td>
+            <td>
+                <img src="{{ item.photo.url }}" alt="photo">
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
