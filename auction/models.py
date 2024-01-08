@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils import timezone
 
 from user.models import User
 
@@ -15,6 +18,8 @@ class Item(models.Model):
     description = models.CharField(max_length=MAX_DESCRIPTION_LENGTH, blank=True, default='')
     photo = models.ImageField()
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
+    # TODO an item can be only on one auction in the same time
+    on_auction = models.BooleanField(default=False)
 
 
 class Auction(models.Model):
@@ -22,5 +27,29 @@ class Auction(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     entry_price = models.DecimalField(decimal_places=PRICE_DECIMAL_PLACES, max_digits=MAX_PRICE_DIGITS)
-    # currency
+    current_price = models.DecimalField(decimal_places=PRICE_DECIMAL_PLACES, max_digits=MAX_PRICE_DIGITS,
+                                        default=0)
+    # TODO optional currency
     active = models.BooleanField(default=True)
+    # TODO after deactivation, set Item.on_auction to false
+
+    def save(self, *args, **kwargs):
+        # Set on_auction to True in the corresponding Item
+        if not self.pk:
+            self.item.on_auction = True
+            self.item.save()
+        super().save(*args, **kwargs)
+
+    def close_auction(self):
+        # This method can be called to close the auction
+        if self.end_time < timezone.now():
+            self.item.on_auction = False
+            self.item.save()
+            self.active = False
+            self.save()
+
+
+@receiver(post_save, sender=Auction)
+def check_auction_status(sender, instance, **kwargs):
+    # Check if the auction is finished and update on_auction accordingly
+    instance.close_auction()
