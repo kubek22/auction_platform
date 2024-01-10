@@ -25,3 +25,6 @@ class RegisterForm(UserCreationForm):
 class LogInForm(forms.Form):
     username = forms.CharField(max_length=MAX_USERNAME_LENGTH)
     password = forms.CharField(widget=forms.PasswordInput)
+
+# TODO account modification
+# TODO forgot password functionality

@@ -1,6 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from datetime import datetime
+import pytz
+
 
 from auction.forms import ItemForm, AuctionForm
 from auction.models import Item
@@ -24,17 +27,36 @@ def add_item(request):
         form = ItemForm()
 
     context = {'form': form}
-
     return render(request, 'add_item.html', context)
 
+
 # TODO creating an auction from chosen item
-# @login_required
-# def create_auction(request):
-#     if request.method == 'POST':
-#         form = AuctionForm(request.POST)
-#         if form.is_valid():
-#             obj = form.save(commit=False)
-#             obj.item =
+@login_required
+def create_auction(request, item_id):
+    user = request.user
+    item = Item.objects.get(seller_id=user.id, id=item_id)
+    if item.on_auction:
+        return redirect("my_items")
+    if request.method == 'POST':
+        form = AuctionForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.item = item
+            obj.active = True
+            obj.current_price = 0
+            obj.start_time = pytz.utc.localize(datetime.now())
+            obj.save()
+            messages.success(request, 'The auction has started.')
+            # TODO FOR TOMORROW: check finishing, add current_bidder to Auction, finish started Auctions
+            return redirect("my_items")
+            # return render(request, 'show_item.html', {'item': item})
+        else:
+            messages.info(request, 'The form is not valid.')
+    else:
+        form = AuctionForm()
+
+    context = {'form': form}
+    return render(request, 'create_auction.html', context)
 
 
 @login_required
@@ -53,4 +75,3 @@ def show_item(request, item_id):
     item = Item.objects.get(seller_id=user.id, id=item_id)
     context = {'item': item}
     return render(request, 'show_item.html', context)
-

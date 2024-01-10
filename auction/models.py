@@ -1,7 +1,13 @@
+from datetime import datetime
+import pytz
+
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils import timezone
+import threading
+from time import sleep
+# never use this
+# from background_task import background  # install: pip install django4-background-tasks AND python manage.py process_tasks
 
 from user.models import User
 
@@ -31,7 +37,6 @@ class Auction(models.Model):
                                         default=0)
     # TODO optional currency
     active = models.BooleanField(default=True)
-    # TODO after deactivation, set Item.on_auction to false
 
     def save(self, *args, **kwargs):
         # Set on_auction to True in the corresponding Item
@@ -40,9 +45,11 @@ class Auction(models.Model):
             self.item.save()
         super().save(*args, **kwargs)
 
-    def close_auction(self):
+    def check_auction(self):
         # This method can be called to close the auction
-        if self.end_time < timezone.now():
+        print(pytz.utc.localize(datetime.now()))
+        # TODO if statement is not needed (optional if (sleep) in end_auction)
+        if self.active and self.end_time <= pytz.utc.localize(datetime.now()):
             self.item.on_auction = False
             self.item.save()
             self.active = False
@@ -50,6 +57,31 @@ class Auction(models.Model):
 
 
 @receiver(post_save, sender=Auction)
-def check_auction_status(sender, instance, **kwargs):
+def run_thread(sender, instance, **kwargs):
     # Check if the auction is finished and update on_auction accordingly
-    instance.close_auction()
+    if not instance.active:
+        return
+    start_time = instance.start_time
+    end_time = instance.end_time
+    thread = threading.Thread(target=end_auction, args=(start_time, end_time, instance))
+    print("Thread started")
+    print(pytz.utc.localize(datetime.now()))
+    thread.start()
+
+
+def convert_to_seconds(start_time, end_time):
+    delta = (end_time - start_time)
+    if delta.total_seconds() < 0:
+        return 0
+    return delta.total_seconds()
+
+
+def end_auction(start_time, end_time, auction):
+    seconds_to_sleep = convert_to_seconds(start_time, end_time)
+    print("counting seconds_to_sleep")
+    sleep(seconds_to_sleep)
+    print("woke up")
+    auction.check_auction()
+    print("finished auction")
+    print(pytz.utc.localize(datetime.now()))
+

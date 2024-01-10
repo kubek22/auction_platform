@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'auction',
     'user',
+    'background_task',
 ]
 
 MIDDLEWARE = [
