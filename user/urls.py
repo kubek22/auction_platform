@@ -6,7 +6,7 @@ from django.contrib.auth import views as django_views
 from user.forms import LogInForm
 
 urlpatterns = [
-    path('register/', views.register, name='home'),
+    path('register/', views.register, name='register'),
     path('register/thanks/', views.thanks, name='thx'),
     # it needs replacing login.html to subdirectory
     #path('', include("django.contrib.auth.urls")),

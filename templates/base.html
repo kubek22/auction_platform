@@ -9,14 +9,12 @@
 </head>
 <body>
     <header>
-        nagłówek
+        <nav id="login_bar">
+            {% include "login_bar.html" %}
+        </nav>
     </header>
-    <nav>
+    <nav id="home">
         <a href="{% url 'home' %}">Home</a>
-        zależnie od statusu:
-            pasek logowania/rejestracji lub
-            pasek wylogowania/informacji o koncie
-        {% include "login_bar.html" %}
     </nav>
     {% block content %}Ta strona jest jeszcze pusta{% endblock %}
     <footer>

@@ -1,8 +1,17 @@
 <div>
-    <a href="/user/login/">
-        <button>LOGIN</button>
-    </a>
-    <a href="/user/register/">
-        <button>CREATE ACCOUNT</button>
-    </a>
+    {% if user.is_authenticated %}
+        Hi {{ user.username }}!
+        <a href="{% url 'logout' %}">
+            <button>LOG OUT</button>
+        </a>
+    {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'login' %}">
+            <button>LOGIN</button>
+        </a>
+        <p></p>
+        <a href="{% url 'register' %}">
+            <button>CREATE ACCOUNT</button>
+        </a>
+    {% endif %}
 </div>

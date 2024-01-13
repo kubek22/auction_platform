@@ -4,9 +4,8 @@ from django.shortcuts import render, redirect
 from datetime import datetime
 import pytz
 
-
 from auction.forms import ItemForm, AuctionForm
-from auction.models import Item
+from auction.models import Item, Auction
 
 
 # Create your views here.
@@ -47,7 +46,7 @@ def create_auction(request, item_id):
             obj.start_time = pytz.utc.localize(datetime.now())
             obj.save()
             messages.success(request, 'The auction has started.')
-            # TODO FOR TOMORROW: check finishing, add current_bidder to Auction, finish started Auctions
+            # TODO check finishing, add current_bidder to Auction, finish started Auctions
             return redirect("my_items")
             # return render(request, 'show_item.html', {'item': item})
         else:
@@ -75,3 +74,26 @@ def show_item(request, item_id):
     item = Item.objects.get(seller_id=user.id, id=item_id)
     context = {'item': item}
     return render(request, 'show_item.html', context)
+
+
+@login_required
+def my_auctions(request):
+    user = request.user
+    auctions = Auction.objects.select_related('item').filter(item__seller_id=user.id, active=True)
+    # TODO auctions sold
+    context = {'auctions': auctions}
+    return render(request, 'my_auctions.html', context)
+
+
+@login_required
+def show_auction(request, auction_id):
+    user = request.user
+    auction = Auction.objects.select_related('item').get(id=auction_id, item__seller_id=user.id)
+    context = {'auction': auction}
+    return render(request, 'show_auction.html', context)
+
+
+# TODO (TOMORROW) additional bars on main page (links to user items etc.)
+# TODO implement the way of showing auction (seller_info, time, current_bidder, current_bid), bid logics
+# TODO create my_auctions template
+# TODO create template to show auctions on the main page

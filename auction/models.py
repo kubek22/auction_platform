@@ -6,8 +6,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import threading
 from time import sleep
-# never use this
-# from background_task import background  # install: pip install django4-background-tasks AND python manage.py process_tasks
+
+from background_task import \
+    background  # install: pip install django4-background-tasks AND python manage.py process_tasks
 
 from user.models import User
 
@@ -56,17 +57,26 @@ class Auction(models.Model):
             self.save()
 
 
+@background
+def close_auction(auction_id):
+    auction = Auction.objects.get(id=auction_id)
+    auction.check_auction()
+
+
 @receiver(post_save, sender=Auction)
-def run_thread(sender, instance, **kwargs):
+def run_auction_closing_process(sender, instance, **kwargs):
     # Check if the auction is finished and update on_auction accordingly
     if not instance.active:
         return
-    start_time = instance.start_time
     end_time = instance.end_time
-    thread = threading.Thread(target=end_auction, args=(start_time, end_time, instance))
-    print("Thread started")
-    print(pytz.utc.localize(datetime.now()))
-    thread.start()
+    close_auction(schedule=end_time, auction_id=instance.id)
+
+    # Optionally possible to deal with Threads
+    # start_time = instance.start_time
+    # thread = threading.Thread(target=end_auction, args=(start_time, end_time, instance))
+    # print("Thread started")
+    # print(pytz.utc.localize(datetime.now()))
+    # thread.start()
 
 
 def convert_to_seconds(start_time, end_time):
@@ -84,4 +94,3 @@ def end_auction(start_time, end_time, auction):
     auction.check_auction()
     print("finished auction")
     print(pytz.utc.localize(datetime.now()))
-

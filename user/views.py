@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from user.forms import RegisterForm, LogInForm
 
 
@@ -13,7 +13,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'The form is valid and has been saved.')
-            return HttpResponseRedirect("thanks/")
+            return redirect('home')
         else:
             messages.info(request, 'The form is not valid.')
             # TODO
@@ -43,6 +43,7 @@ def login_user(request):
                 login(request, user)
                 messages.success(request, 'Logged in')
                 # TODO success login
+                return redirect('home')
             else:
                 messages.info(request, 'Not logged in')
                 # TODO logging in not successful
@@ -56,7 +57,7 @@ def login_user(request):
     return render(request, 'registration/login.html', context)
 
 
-# alternative version
+# alternative version (not used)
 def userLoginPage(request):
     form = LogInForm(request.POST)
 
@@ -94,4 +95,5 @@ def userLoginPage(request):
 
 def logout_user(request):
     logout(request)
-    return render(request, 'registration/logout.html')
+    return redirect('home')
+    #return render(request, 'registration/logout.html')
