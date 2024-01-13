@@ -2,7 +2,7 @@ from datetime import datetime
 import pytz
 
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_init
 from django.dispatch import receiver
 import threading
 from time import sleep
@@ -38,6 +38,8 @@ class Auction(models.Model):
                                         default=0)
     # TODO optional currency
     active = models.BooleanField(default=True)
+    current_bidder = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    bidder = models.ManyToManyField(User, related_name='bidders_auctions')
 
     def save(self, *args, **kwargs):
         # Set on_auction to True in the corresponding Item
@@ -49,12 +51,33 @@ class Auction(models.Model):
     def check_auction(self):
         # This method can be called to close the auction
         print(pytz.utc.localize(datetime.now()))
-        # TODO if statement is not needed (optional if (sleep) in end_auction)
+        # TODO "if" statement is not needed (optional if (sleep) in end_auction)
         if self.active and self.end_time <= pytz.utc.localize(datetime.now()):
             self.item.on_auction = False
             self.item.save()
             self.active = False
             self.save()
+
+    def bid(self, price, bidder):
+        if not self.active:
+            return
+        if self.end_time <= pytz.utc.localize(datetime.now()):
+            #return
+            pass
+        if price <= self.current_price:
+            return
+        if price < self.entry_price:
+            return
+        if bidder == self.current_bidder:
+            return
+        if bidder == self.item.seller:
+            return
+        self.current_price = price
+        if bidder not in self.bidder.all():
+            self.current_bidder = bidder
+        self.bidder.add(bidder)
+        # self.bidder.set(bidder)
+        self.save()
 
 
 @background
@@ -63,7 +86,7 @@ def close_auction(auction_id):
     auction.check_auction()
 
 
-@receiver(post_save, sender=Auction)
+@receiver(post_init, sender=Auction)
 def run_auction_closing_process(sender, instance, **kwargs):
     # Check if the auction is finished and update on_auction accordingly
     if not instance.active:
@@ -71,7 +94,7 @@ def run_auction_closing_process(sender, instance, **kwargs):
     end_time = instance.end_time
     close_auction(schedule=end_time, auction_id=instance.id)
 
-    # Optionally possible to deal with Threads
+    # Optionally possible solve with Threads
     # start_time = instance.start_time
     # thread = threading.Thread(target=end_auction, args=(start_time, end_time, instance))
     # print("Thread started")
@@ -79,6 +102,7 @@ def run_auction_closing_process(sender, instance, **kwargs):
     # thread.start()
 
 
+# optional solution
 def convert_to_seconds(start_time, end_time):
     delta = (end_time - start_time)
     if delta.total_seconds() < 0:

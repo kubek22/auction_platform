@@ -4,6 +4,12 @@
         <a href="{% url 'logout' %}">
             <button>LOG OUT</button>
         </a>
+        <a href="{% url 'my_items' %}">
+            <button>MY ITEMS</button>
+        </a>
+        <a href="{% url 'my_auctions' %}">
+            <button>MY AUCTIONS</button>
+        </a>
     {% else %}
         <p>You are not logged in</p>
         <a href="{% url 'login' %}">

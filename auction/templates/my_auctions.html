@@ -1,39 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-    {% load my_tags %}
 
-    <h3>All your running auctions.</h3>
+    <h1>All your running auctions.</h1>
 
     {% if not auctions %}
         <p>There are no running auctions.</p>
     {% endif %}
 
-    <table>
-        {% for auction in auctions %}
-        <tr>
-            <td>
-                <a href="{{ auction.id }}">
-                    {{ auction.item.name }}
-                </a>
-            </td>
-            <td>
-                <img src="{{ auction.item.photo.url }}" alt="photo">
-            </td>
-            <td>
-                <p>Entry price: {{ auction.entry_price }}</p>
-            </td>
-            <td>
-                <p>__break__</p>
-            </td>
-            <td>
-                <p>Current price: {{ auction.current_price }}</p>
-            </td>
-            <td>
-                {% current_time %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    {% include "show_auctions.html" %}
 
+    <h1>All auctions you are participating in.</h1>
+
+    {% include "show_auctions.html" with auctions=bidding_auctions %}
+
+    <h1>All auctions won by you.</h1>
+
+    {% include "show_auctions.html" with auctions=won_auctions %}
 
 {% endblock %}

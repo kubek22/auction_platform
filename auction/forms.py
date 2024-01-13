@@ -3,7 +3,7 @@ import pytz
 
 from django import forms
 
-from auction.models import Item, Auction
+from auction.models import Item, Auction, PRICE_DECIMAL_PLACES, MAX_PRICE_DIGITS
 
 
 class ItemForm(forms.ModelForm):
@@ -13,6 +13,7 @@ class ItemForm(forms.ModelForm):
 
 
 class AuctionForm(forms.ModelForm):
+    # TODO change labels in html
     form_end_time = forms.TimeField(
         widget=forms.TimeInput(attrs={'type': 'time'}))
     form_end_date = forms.DateField(
@@ -35,3 +36,7 @@ class AuctionForm(forms.ModelForm):
 
     # TODO check if end_time > start_time
     # TODO entry_price > 0
+
+
+class BidForm(forms.Form):
+    price = forms.DecimalField(decimal_places=PRICE_DECIMAL_PLACES, max_digits=MAX_PRICE_DIGITS)

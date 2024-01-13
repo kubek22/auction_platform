@@ -1,4 +1,9 @@
 from django.shortcuts import render
 
+from auction.models import Auction
+
+
 def home(request):
-    return render(request, 'home.html')
+    auctions = Auction.objects.filter(active=True)
+    context = {'auctions': auctions}
+    return render(request, 'home.html', context)

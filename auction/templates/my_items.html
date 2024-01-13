@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 
+    <a href="{%  url 'add_item' %}">
+        <button>ADD ITEM</button>
+    </a>
+
     <h3>All your items, that are not on auctions.</h3>
 
     {% if not items %}

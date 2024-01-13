@@ -5,12 +5,34 @@
     {% else %}
         <p>This auction is finished.</p>
     {% endif %}
+    {% if auction.current_bidder == user %}
+        <p class="green">You are the current bidder</p>
+    {% endif %}
 
-    <h3>{{ auction.item.name }}</h3>
+    <h2>{{ auction.item.name }}</h2>
     <img src="{{ auction.item.photo.url }}" alt="photo">
-    <h2>Description</h2>
+    <h3>Description</h3>
     <p>{{ auction.item.description }}</p>
+    <br>
     <p>start_time: {{ auction.start_time }}</p>
     <p>end_time: {{ auction.end_time }}</p>
     <p>Contact mail: <a href="mailto: {{ auction.item.seller.email }}">{{ auction.item.seller.email }}</a></p>
+
+    <p>Entry price: {{ auction.entry_price }}</p>
+
+    {% if auction.entry_price < auction.current_price %}
+        <p>Current price: {{ auction.current_price }}</p>
+    {% endif %}
+
+    {% if user == auction.item.seller %}
+        <p>This is your auction.</p>
+    {% else %}
+        {# TODO crate a bidding form here #}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_div }}
+            <input type="submit" value="BID">
+        </form>
+    {%  endif %}
+
 {% endblock %}

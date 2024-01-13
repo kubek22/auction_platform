@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from datetime import datetime
 import pytz
 
-from auction.forms import ItemForm, AuctionForm
+from auction.forms import ItemForm, AuctionForm, BidForm
 from auction.models import Item, Auction
 
 
@@ -19,6 +19,7 @@ def add_item(request):
             obj.seller = request.user
             obj.save()
             messages.success(request, 'The item has been added to your account.')
+            return redirect('my_items')
         else:
             messages.info(request, 'The form is not valid.')
             print(form.errors)
@@ -69,7 +70,7 @@ def my_items(request):
 
 
 @login_required
-def show_item(request, item_id):
+def show_my_item(request, item_id):
     user = request.user
     item = Item.objects.get(seller_id=user.id, id=item_id)
     context = {'item': item}
@@ -81,15 +82,38 @@ def my_auctions(request):
     user = request.user
     auctions = Auction.objects.select_related('item').filter(item__seller_id=user.id, active=True)
     # TODO auctions sold
-    context = {'auctions': auctions}
+    bidding_auctions = Auction.objects.filter(bidder=user, active=True)
+    won_auctions = Auction.objects.filter(bidder=user, active=False)
+    context = {'auctions': auctions,
+               'bidding_auctions': bidding_auctions,
+               'won_auctions': won_auctions,
+               'mine': True}
     return render(request, 'my_auctions.html', context)
 
 
 @login_required
-def show_auction(request, auction_id):
+def show_my_auction(request, auction_id):
     user = request.user
     auction = Auction.objects.select_related('item').get(id=auction_id, item__seller_id=user.id)
-    context = {'auction': auction}
+    context = {'auction': auction,
+               'mine': True}
+    return render(request, 'show_auction.html', context)
+
+
+def show_auction(request, auction_id):
+    if request.method == 'POST':
+        form = BidForm(request.POST)
+        if form.is_valid():
+            auction = Auction.objects.get(id=auction_id)
+            price = form.cleaned_data['price']
+            bidder = request.user
+            auction.bid(price, bidder)
+            messages.success(request, 'Successful bid.')
+    else:
+        form = BidForm()
+
+    auction = Auction.objects.get(id=auction_id)
+    context = {'auction': auction, 'form': form}
     return render(request, 'show_auction.html', context)
 
 
