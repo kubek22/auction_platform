@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 
 from django.db import models
-from django.db.models.signals import post_init
+from django.db.models.signals import post_init, post_save
 from django.dispatch import receiver
 import threading
 from time import sleep
@@ -43,10 +43,15 @@ class Auction(models.Model):
 
     def save(self, *args, **kwargs):
         # Set on_auction to True in the corresponding Item
+        first_save = False
         if not self.pk:
+            first_save = True
             self.item.on_auction = True
             self.item.save()
         super().save(*args, **kwargs)
+        if first_save:
+            # timedelta needed (timezone difference in execution)
+            close_auction(schedule=self.end_time - timedelta(hours=1), auction_id=self.id)
 
     def check_auction(self):
         # This method can be called to close the auction
@@ -62,8 +67,7 @@ class Auction(models.Model):
         if not self.active:
             return
         if self.end_time <= pytz.utc.localize(datetime.now()):
-            #return
-            pass
+            return
         if price <= self.current_price:
             return
         if price < self.entry_price:
@@ -82,11 +86,12 @@ class Auction(models.Model):
 
 @background
 def close_auction(auction_id):
+    print("closing auction...")
     auction = Auction.objects.get(id=auction_id)
     auction.check_auction()
 
 
-@receiver(post_init, sender=Auction)
+# @receiver(post_save, sender=Auction)
 def run_auction_closing_process(sender, instance, **kwargs):
     # Check if the auction is finished and update on_auction accordingly
     if not instance.active:
