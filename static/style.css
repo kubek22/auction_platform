@@ -1,0 +1,138 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    justify-content: space-between;
+    display: flex;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+div.my-item {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    overflow: hidden;
+    max-width: 800px;
+}
+
+div.my-item img {
+    width: 100%; /* Make the image fill the container */
+    height: auto;
+    max-width: 400px; /* Set a maximum width for the image */
+    max-height: 400px;
+}
+
+div.item {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+div.item-info {
+    margin-top: 10px;
+}
+
+div.item-info a, h3 {
+    text-decoration: none;
+    color: #333; /* Set the color to your desired value */
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center the content */
+    text-align: center; /* Center the text horizontally */
+    height: 100%; /* Set the height to 100% to make justify-content work */
+}
+
+div.auction {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+div.auction img {
+    width: 100%; /* Make the image fill the container */
+    height: auto;
+    max-width: 200px; /* Set a maximum width for the image */
+    max-height: 200px;
+}
+
+div.my-auction {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    overflow: hidden;
+    max-width: 800px;
+}
+
+div.my-auction img {
+    width: 100%; /* Make the image fill the container */
+    height: auto;
+    max-width: 400px; /* Set a maximum width for the image */
+    max-height: 400px;
+}
+
+div.auction-info {
+    margin-top: 10px;
+}
+
+div.auction-info p.green {
+    color: green;
+}
+
+div.auction-info p.red {
+    color: red;
+}
+
+div.auction-info a {
+  text-decoration: none;
+  color: #333; /* Set the color to your desired value */
+}
+
+div.auction-info a:hover {
+  color: #555; /* Change the color on hover */
+}
+
+div.auctions {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

@@ -1,52 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <a href="{%  url 'add_item' %}">
+    <a href="{% url 'add_item' %}">
         <button>ADD ITEM</button>
     </a>
 
-    <h3>All your items, that are not on auctions.</h3>
+    <h2>All your items, that are not on auctions.</h2>
 
     {% if not items %}
         <p>There are no items to put up on auction.</p>
     {% endif %}
 
-    <table>
-        {% for item in items %}
-        <tr>
-            <td>
+
+    {% for item in items %}
+        <div class="item">
+            <img src="{{ item.photo.url }}" alt="photo">
+            <div class="item-info">
                 <a href="{{ item.id }}">
-                    {{ item.name }}
+                    <h3> {{ item.name }}</h3>
                 </a>
-            </td>
-            <td>
-                <img src="{{ item.photo.url }}" alt="photo">
+            </div>
+        </div>
+    {% endfor %}
 
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <h3>All your items on auctions.</h3>
+    <h2>All your items on auctions.</h2>
 
     {% if not items_on_auctions %}
         <p>There are no items on auctions.</p>
     {% endif %}
 
-    <table>
-        {% for item in items_on_auctions %}
-        <tr>
-            <td>
+    {% for item in items_on_auctions %}
+        <div class="item">
+            <img src="{{ item.photo.url }}" alt="photo">
+            <div class="item-info">
                 <a href="{{ item.id }}">
-                    {{ item.name }}
+                    <h3> {{ item.name }}</h3>
                 </a>
-            </td>
-            <td>
-                <img src="{{ item.photo.url }}" alt="photo">
-
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+            </div>
+        </div>
+    {% endfor %}
 
 {% endblock %}

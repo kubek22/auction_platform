@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h1>All your running auctions.</h1>
+    <h2>All your running auctions.</h2>
 
     {% if not auctions %}
         <p>There are no running auctions.</p>
@@ -9,11 +9,19 @@
 
     {% include "show_auctions.html" %}
 
-    <h1>All auctions you are participating in.</h1>
+    <h2>All auctions you are participating in.</h2>
+
+    {% if not bidding_auctions %}
+        <p>There are no auctions here.</p>
+    {% endif %}
 
     {% include "show_auctions.html" with auctions=bidding_auctions %}
 
-    <h1>All auctions won by you.</h1>
+    <h2>All auctions won by you.</h2>
+
+    {% if not won_auctions %}
+        <p>There are no auctions here.</p>
+    {% endif %}
 
     {% include "show_auctions.html" with auctions=won_auctions %}
 
