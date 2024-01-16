@@ -3,11 +3,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {# messages #}
-    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link type="text/css" href="{% static 'script.js' %}">
-    <title>Title</title>
+    <title>Auction platform</title>
 </head>
 <body>
     <header>
@@ -22,6 +21,8 @@
     <div class="auctions">
         {% block content %}This site is empty.{% endblock %}
     </div>
+
+    <br id="null">
 
     <footer>
         &copy; 2024 Auction Platform

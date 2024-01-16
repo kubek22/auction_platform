@@ -195,3 +195,11 @@ button.header:hover {
     color: white; /* White text color */
     background-color: #FF5733; /* Red background color for error messages */
 }
+
+address {
+    font-style: normal; /* Set font style to normal, removing italics */
+}
+
+br#null{
+    font-style: normal;
+}

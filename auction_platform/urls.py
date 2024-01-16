@@ -20,6 +20,7 @@ from django.urls import path, include
 
 from auction_platform import views, settings
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auction/', include('auction.urls')),

@@ -19,7 +19,12 @@
 
                 <p>Start time: {{ auction.start_time }}</p>
                 <p>End time: {{ auction.end_time }}</p>
-                <p>Contact mail: <a href="mailto: {{ auction.item.seller.email }}">{{ auction.item.seller.email }}</a>
+                <p>
+                <address>
+                    Contact mail:
+
+                    <a href="mailto: {{ auction.item.seller.email }}">{{ auction.item.seller.email }}</a>
+                </address>
                 </p>
 
                 <p>Entry price: {{ auction.entry_price }}</p>
