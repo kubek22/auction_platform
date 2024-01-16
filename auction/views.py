@@ -18,11 +18,10 @@ def add_item(request):
             obj = form.save(commit=False)
             obj.seller = request.user
             obj.save()
-            messages.success(request, 'The item has been added to your account.')
+            messages.success(request, 'New item has been added to your account.')
             return redirect('my_items')
         else:
-            messages.info(request, 'The form is not valid.')
-            print(form.errors)
+            messages.error(request, 'The form is not valid.')
     else:
         form = ItemForm()
 
@@ -30,7 +29,6 @@ def add_item(request):
     return render(request, 'add_item.html', context)
 
 
-# TODO creating an auction from chosen item
 @login_required
 def create_auction(request, item_id):
     user = request.user
@@ -49,9 +47,8 @@ def create_auction(request, item_id):
             messages.success(request, 'The auction has started.')
             # TODO check finishing, add current_bidder to Auction, finish started Auctions
             return redirect("my_items")
-            # return render(request, 'show_item.html', {'item': item})
         else:
-            messages.info(request, 'The form is not valid.')
+            messages.error(request, 'The form is not valid.')
     else:
         form = AuctionForm()
 
@@ -107,8 +104,11 @@ def show_auction(request, auction_id):
             auction = Auction.objects.get(id=auction_id)
             price = form.cleaned_data['price']
             bidder = request.user
-            auction.bid(price, bidder)
-            messages.success(request, 'Successful bid.')
+            msg = auction.bid(price, bidder)
+            if msg is None:
+                messages.success(request, 'The auction has been bid.')
+            else:
+                messages.error(request, msg)
     else:
         form = BidForm()
 

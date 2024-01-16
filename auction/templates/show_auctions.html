@@ -1,21 +1,21 @@
 {% for auction in auctions %}
-<div class="auction">
-    <img src="{{ auction.item.photo.url }}" alt="photo">
-    <div class="auction-info">
-        {% if user == auction.item.seller %}
-            {# visiting my auctions (both from my_auctions or home page) #}
-            <a href="{% url 'my_auction' auction_id=auction.id %}">
-                <h3>{{ auction.item.name }}</h3>
-            </a>
-        {% else %}
-            {# visiting auctions from home page (not mine) #}
-            <a href="{% url 'auction' auction_id=auction.id %}">
-                <h3>{{ auction.item.name }}</h3>
-            </a>
-        {% endif %}
+    <div class="auction">
+        <img src="{{ auction.item.photo.url }}" alt="photo">
+        <div class="auction-info">
+            {% if user == auction.item.seller %}
+                {# visiting my auctions (both from my_auctions or home page) #}
+                <a href="{% url 'my_auction' auction_id=auction.id %}">
+                    <h3>{{ auction.item.name }}</h3>
+                </a>
+            {% else %}
+                {# visiting auctions from home page (not mine) #}
+                <a href="{% url 'auction' auction_id=auction.id %}">
+                    <h3>{{ auction.item.name }}</h3>
+                </a>
+            {% endif %}
             <p>Entry price: {{ auction.entry_price }}</p>
             <p>Current price: {{ auction.current_price }}</p>
             <p>End time: {{ auction.end_time }}</p>
+        </div>
     </div>
-</div>
 {% endfor %}

@@ -2,22 +2,21 @@
     {% if user.is_authenticated %}
         Hi {{ user.username }}!
         <a href="{% url 'logout' %}">
-            <button>LOG OUT</button>
+            <button class="header">LOG OUT</button>
         </a>
         <a href="{% url 'my_items' %}">
-            <button>MY ITEMS</button>
+            <button class="header">MY ITEMS</button>
         </a>
         <a href="{% url 'my_auctions' %}">
-            <button>MY AUCTIONS</button>
+            <button class="header">MY AUCTIONS</button>
         </a>
     {% else %}
-        <p>You are not logged in</p>
+        You are not logged in
         <a href="{% url 'login' %}">
-            <button>LOGIN</button>
+            <button class="header">LOGIN</button>
         </a>
-        <p></p>
         <a href="{% url 'register' %}">
-            <button>CREATE ACCOUNT</button>
+            <button class="header">CREATE ACCOUNT</button>
         </a>
     {% endif %}
 </div>

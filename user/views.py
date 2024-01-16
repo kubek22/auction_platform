@@ -12,15 +12,12 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'The form is valid and has been saved.')
+            messages.success(request, 'The user has been created.')
             return redirect('home')
         else:
-            messages.info(request, 'The form is not valid.')
-            # TODO
-            # give accurate information when username or email is not unique
+            messages.error(request, 'The form is not valid.')
     else:
         form = RegisterForm()
-        messages.info(request, 'Request type is not POST.')
 
     context = {
         'form': form
@@ -42,13 +39,11 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Logged in')
-                # TODO success login
                 return redirect('home')
             else:
-                messages.info(request, 'Not logged in')
-                # TODO logging in not successful
+                messages.error(request, 'Not logged in')
         else:
-            messages.info(request, 'The form is not valid')
+            messages.error(request, 'The form is not valid')
     else:
         form = LogInForm()
 
@@ -95,5 +90,5 @@ def userLoginPage(request):
 
 def logout_user(request):
     logout(request)
+    messages.success(request, "Logged out user.")
     return redirect('home')
-    #return render(request, 'registration/logout.html')

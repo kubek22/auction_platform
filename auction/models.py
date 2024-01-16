@@ -65,23 +65,24 @@ class Auction(models.Model):
 
     def bid(self, price, bidder):
         if not self.active:
-            return
+            return 'This auction is not active.'
         if self.end_time <= pytz.utc.localize(datetime.now()):
-            return
+            return 'This auction has expired.'
         if price <= self.current_price:
-            return
+            return 'The price must be higher than current price.'
         if price < self.entry_price:
-            return
+            return 'The price must be higher than entry price.'
         if bidder == self.current_bidder:
-            return
+            return 'You are the current bidder.'
         if bidder == self.item.seller:
-            return
+            return 'You cannot bid your own auctions.'
         self.current_price = price
         if bidder not in self.bidder.all():
             self.current_bidder = bidder
         self.bidder.add(bidder)
         # self.bidder.set(bidder)
         self.save()
+        return None
 
 
 @background

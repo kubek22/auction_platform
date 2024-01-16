@@ -1,3 +1,5 @@
+/* TODO make buttons nicer */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -24,6 +26,7 @@ footer {
     width: 100%;
 }
 
+
 div.my-item {
     margin: 20px auto;
     padding: 20px;
@@ -36,9 +39,9 @@ div.my-item {
 }
 
 div.my-item img {
-    width: 100%; /* Make the image fill the container */
+    width: 100%;
     height: auto;
-    max-width: 400px; /* Set a maximum width for the image */
+    max-width: 400px;
     max-height: 400px;
 }
 
@@ -59,15 +62,26 @@ div.item-info {
     margin-top: 10px;
 }
 
-div.item-info a, h3 {
+a.item-info {
     text-decoration: none;
-    color: #333; /* Set the color to your desired value */
+    color: #333;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Vertically center the content */
-    text-align: center; /* Center the text horizontally */
-    height: 100%; /* Set the height to 100% to make justify-content work */
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+h3.item-info {
+    text-decoration: none;
+    color: #333;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
 }
 
 div.auction {
@@ -84,9 +98,9 @@ div.auction {
 }
 
 div.auction img {
-    width: 100%; /* Make the image fill the container */
+    width: 100%;
     height: auto;
-    max-width: 200px; /* Set a maximum width for the image */
+    max-width: 200px;
     max-height: 200px;
 }
 
@@ -102,9 +116,9 @@ div.my-auction {
 }
 
 div.my-auction img {
-    width: 100%; /* Make the image fill the container */
+    width: 100%;
     height: auto;
-    max-width: 400px; /* Set a maximum width for the image */
+    max-width: 400px;
     max-height: 400px;
 }
 
@@ -120,13 +134,13 @@ div.auction-info p.red {
     color: red;
 }
 
-div.auction-info a {
+a {
   text-decoration: none;
-  color: #333; /* Set the color to your desired value */
+  color: #333;
 }
 
-div.auction-info a:hover {
-  color: #555; /* Change the color on hover */
+a:hover {
+  color: #555;
 }
 
 div.auctions {
@@ -135,4 +149,49 @@ div.auctions {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+button.header {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 16px; /* Adjust padding to make the button smaller */
+    font-size: 14px; /* Adjust font size */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+button.header:hover {
+    background-color: #45a049;
+}
+
+.messages-container {
+    width: 100%; /* Full width of the screen */
+    padding: 15px; /* Padding around messages */
+    box-sizing: border-box; /* Include padding in the width */
+    margin-bottom: 15px; /* Add some spacing between messages and the form */
+}
+
+.success {
+    margin-bottom: 10px; /* Add spacing between individual messages */
+    padding: 15px; /* Padding around messages */
+    color: white; /* White text color */
+    background-color: #4CAF50; /* Default background color for messages (green) */
+}
+
+.info {
+    margin-bottom: 10px; /* Add spacing between individual messages */
+    padding: 15px; /* Padding around messages */
+    color: white; /* White text color */
+    background-color: #2196F3; /* Blue background color for info messages */
+}
+
+.error {
+    margin-bottom: 10px; /* Add spacing between individual messages */
+    padding: 15px; /* Padding around messages */
+    color: white; /* White text color */
+    background-color: #FF5733; /* Red background color for error messages */
 }
