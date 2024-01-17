@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from user.forms import RegisterForm, LogInForm
+from user.forms import RegisterForm, LogInForm, ForgotPasswordForm
 
 
 # Create your views here.
@@ -23,10 +23,6 @@ def register(request):
         'form': form
     }
     return render(request, 'register.html', context)
-
-
-def thanks(request):
-    return render(request, 'thanks.html')
 
 
 def login_user(request):
@@ -92,3 +88,19 @@ def logout_user(request):
     logout(request)
     messages.success(request, "Logged out user.")
     return redirect('home')
+
+
+def forgot_password(request):
+    if request.method == "POST":
+        form = ForgotPasswordForm(request.POST)
+        if form.is_valid():
+            # code for sending an email
+            print('Sending an email...')
+            messages.success(request, 'The email has been sent.')
+        else:
+            messages.error(request, 'No user with given email.')
+    else:
+        form = ForgotPasswordForm()
+
+    context = {'form': form}
+    return render(request, 'forgot_password.html', context)

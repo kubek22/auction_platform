@@ -35,12 +35,13 @@
 
                 {% if user == auction.item.seller %}
                     <p class="green">This is your auction.</p>
+                {% elif won %}
+                    <button class="form" id="pay">PAY</button>
                 {% else %}
-                    {# TODO crate a bidding form here #}
                     <form method="post">
                         {% csrf_token %}
                         {{ form.as_div }}
-                        <input type="submit" value="BID">
+                        <input type="submit" value="BID" class="form">
                     </form>
                 {% endif %}
             </div>

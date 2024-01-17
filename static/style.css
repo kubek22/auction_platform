@@ -1,5 +1,3 @@
-/* TODO make buttons nicer */
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -200,6 +198,38 @@ address {
     font-style: normal; /* Set font style to normal, removing italics */
 }
 
-br#null{
-    font-style: normal;
+div#forgot-password {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+a#forgot-password{
+    color: #fff;
+    text-underline: #fff;
+    text-decoration: underline;
+}
+
+a#forgot-password:hover {
+    color: lightgray;
+}
+
+button.form, input.form {
+    background-color: #e9ecef; /* Light grey background color */
+    color: #495057; /* Dark grey text color */
+    padding: 0.25rem 0.5rem; /* Slightly smaller padding */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    line-height: 1.2; /* Adjusted line height */
+    border: 1px solid #e9ecef; /* Light grey border */
+    border-radius: 0.2rem; /* Slightly smaller border radius */
+    cursor: pointer; /* Add cursor pointer on hover */
+}
+
+button.form:hover, input.form:hover {
+    /* Add hover effect if desired */
+    background-color: #d3d9df; /* Slightly darker grey on hover */
+    border-color: #d3d9df; /* Slightly darker border on hover */
 }

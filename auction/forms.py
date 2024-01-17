@@ -13,7 +13,6 @@ class ItemForm(forms.ModelForm):
 
 
 class AuctionForm(forms.ModelForm):
-    # TODO change labels in html
     form_end_time = forms.TimeField(
         widget=forms.TimeInput(attrs={'type': 'time'}))
     form_end_date = forms.DateField(
@@ -33,9 +32,6 @@ class AuctionForm(forms.ModelForm):
         t = pytz.utc.localize(t)
         auction.end_time = t
         return auction
-
-    # TODO check if end_time > start_time
-    # TODO entry_price > 0
 
 
 class BidForm(forms.Form):

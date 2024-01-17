@@ -1,9 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
     <p>Put up the item on auction</p>
+    <hr>
+    <br>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_div }}
-        <input type="submit" value="Start auction">
+
+        <div>
+            <label for="{{ form.entry_price.id_for_label }}">Entry price:</label>
+            {{ form.entry_price }}</div>
+        <br>
+        <div>
+            <label for="{{ form.form_end_time.id_for_label }}">End time:</label>
+            {{ form.form_end_time }}</div>
+        <br>
+
+        <div>
+            <label for="{{ form.form_end_date.id_for_label }}">End date:</label>
+            {{ form.form_end_date }}</div>
+        <br>
+        <input type="submit" value="Start auction" class="form">
     </form>
 {% endblock %}

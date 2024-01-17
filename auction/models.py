@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import pytz
+from django.core.validators import MinValueValidator
 
 from django.db import models
 from django.db.models.signals import post_init, post_save
@@ -33,10 +34,11 @@ class Auction(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    entry_price = models.DecimalField(decimal_places=PRICE_DECIMAL_PLACES, max_digits=MAX_PRICE_DIGITS)
+    entry_price = models.DecimalField(decimal_places=PRICE_DECIMAL_PLACES, max_digits=MAX_PRICE_DIGITS,
+                                      validators=[MinValueValidator(0, 'Entry price cannot be negative.')])
     current_price = models.DecimalField(decimal_places=PRICE_DECIMAL_PLACES, max_digits=MAX_PRICE_DIGITS,
                                         default=0)
-    # TODO optional currency
+    # optional currency
     active = models.BooleanField(default=True)
     current_bidder = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     bidder = models.ManyToManyField(User, related_name='bidders_auctions')
@@ -72,15 +74,16 @@ class Auction(models.Model):
             return 'The price must be higher than current price.'
         if price < self.entry_price:
             return 'The price must be higher than entry price.'
+        if price == 0:
+            return 'The price must be higher than 0.'
         if bidder == self.current_bidder:
             return 'You are the current bidder.'
         if bidder == self.item.seller:
             return 'You cannot bid your own auctions.'
         self.current_price = price
         if bidder not in self.bidder.all():
-            self.current_bidder = bidder
-        self.bidder.add(bidder)
-        # self.bidder.set(bidder)
+            self.bidder.add(bidder)
+        self.current_bidder = bidder
         self.save()
         return None
 

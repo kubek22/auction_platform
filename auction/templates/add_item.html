@@ -2,9 +2,10 @@
 {% block content %}
     {% include 'messages.html' %}
     <p>Add a new item to your account</p>
+    <hr>
     <form method="post" enctype= multipart/form-data>
         {% csrf_token %}
-        {{ form.as_div }}
-        <input type="submit" value="Add">
+        {{ form.as_p }}
+        <input type="submit" value="Add" class="form">
     </form>
 {% endblock %}

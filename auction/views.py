@@ -45,7 +45,6 @@ def create_auction(request, item_id):
             obj.start_time = pytz.utc.localize(datetime.now())
             obj.save()
             messages.success(request, 'The auction has started.')
-            # TODO check finishing, add current_bidder to Auction, finish started Auctions
             return redirect("my_items")
         else:
             messages.error(request, 'The form is not valid.')
@@ -94,16 +93,19 @@ def show_my_auction(request, auction_id):
     auction = Auction.objects.select_related('item').get(id=auction_id, item__seller_id=user.id)
     context = {'auction': auction,
                'mine': True}
+    if (not auction.active) and auction.current_bidder == user:
+        context['won'] = True
     return render(request, 'show_auction.html', context)
 
 
 def show_auction(request, auction_id):
+    user = request.user
     if request.method == 'POST':
         form = BidForm(request.POST)
         if form.is_valid():
             auction = Auction.objects.get(id=auction_id)
             price = form.cleaned_data['price']
-            bidder = request.user
+            bidder = user
             msg = auction.bid(price, bidder)
             if msg is None:
                 messages.success(request, 'The auction has been bid.')
@@ -114,10 +116,10 @@ def show_auction(request, auction_id):
 
     auction = Auction.objects.get(id=auction_id)
     context = {'auction': auction, 'form': form}
+    if (not auction.active) and auction.current_bidder == user:
+        context['won'] = True
     return render(request, 'show_auction.html', context)
 
 
-# TODO (TOMORROW) additional bars on main page (links to user items etc.)
-# TODO implement the way of showing auction (seller_info, time, current_bidder, current_bid), bid logics
-# TODO create my_auctions template
-# TODO create template to show auctions on the main page
+# TODO !!!(NOW) 30 html tags
+# TODO requirements.txt

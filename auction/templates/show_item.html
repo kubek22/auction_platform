@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     {% if not item.on_auction %}
-        <a href="{% url 'create_auction' item_id=item.id %}"><button>Put up on auction.</button></a>
+        <a href="{% url 'create_auction' item_id=item.id %}"><button class="form">Put up on auction.</button></a>
     {% else %}
         <p>This element is already on auction.</p>
     {% endif %}

@@ -4,6 +4,17 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from user.models import User, MAX_USERNAME_LENGTH
 
 
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField()
+
+    def is_valid(self):
+        if not super().is_valid():
+            return False
+        if not User.objects.filter(email=self.cleaned_data['email']).exists():
+            return False
+        return True
+
+
 class RegisterForm(UserCreationForm):
     username = forms.CharField(max_length=MAX_USERNAME_LENGTH)
     email = forms.EmailField()
@@ -26,5 +37,3 @@ class LogInForm(forms.Form):
     username = forms.CharField(max_length=MAX_USERNAME_LENGTH)
     password = forms.CharField(widget=forms.PasswordInput)
 
-# TODO account modification
-# TODO forgot password functionality
