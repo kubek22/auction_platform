@@ -2,6 +2,14 @@
     <div class="auction">
         <img src="{{ auction.item.photo.url }}" alt="photo">
         <div class="auction-info">
+            {% if not auction.active %}
+                {% if auction.current_bidder == user %}
+                    {# the user won the auction #}
+                    <p class="green">You won the auction.</p>
+                {% else %}
+                    <p class="red">You did not win the auction.</p>
+                {% endif %}
+            {% endif %}
             {% if user == auction.item.seller %}
                 {# visiting my auctions (both from my_auctions or home page) #}
                 <a href="{% url 'my_auction' auction_id=auction.id %}">

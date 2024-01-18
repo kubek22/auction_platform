@@ -40,7 +40,8 @@ class Auction(models.Model):
                                         default=0)
     # optional currency
     active = models.BooleanField(default=True)
-    current_bidder = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    #current_bidder = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    current_bidder = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     bidder = models.ManyToManyField(User, related_name='bidders_auctions')
 
     def save(self, *args, **kwargs):
@@ -60,8 +61,11 @@ class Auction(models.Model):
         print(pytz.utc.localize(datetime.now()))
         # TODO "if" statement is not needed (optional if (sleep) in end_auction)
         if self.active and self.end_time <= pytz.utc.localize(datetime.now()):
-            self.item.on_auction = False
-            self.item.save()
+            # auction must be closed
+            if self.current_bidder is None:
+                # nobody paid, so we release the item
+                self.item.on_auction = False
+                self.item.save()
             self.active = False
             self.save()
 

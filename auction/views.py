@@ -106,7 +106,9 @@ def show_auction(request, auction_id):
             auction = Auction.objects.get(id=auction_id)
             price = form.cleaned_data['price']
             bidder = user
-            msg = auction.bid(price, bidder)
+            msg = 'You must log in first.'
+            if user.is_authenticated:
+                msg = auction.bid(price, bidder)
             if msg is None:
                 messages.success(request, 'The auction has been bid.')
             else:
@@ -121,5 +123,4 @@ def show_auction(request, auction_id):
     return render(request, 'show_auction.html', context)
 
 
-# TODO !!!(NOW) 30 html tags
 # TODO requirements.txt
