@@ -76,8 +76,7 @@ def show_my_item(request, item_id):
 @login_required
 def my_auctions(request):
     user = request.user
-    auctions = Auction.objects.select_related('item').filter(item__seller_id=user.id, active=True)
-    # TODO auctions sold
+    auctions = Auction.objects.select_related('item').filter(item__seller_id=user.id)
     bidding_auctions = Auction.objects.filter(bidder=user, active=True)
     won_auctions = Auction.objects.filter(bidder=user, active=False)
     context = {'auctions': auctions,
@@ -121,6 +120,3 @@ def show_auction(request, auction_id):
     if (not auction.active) and auction.current_bidder == user:
         context['won'] = True
     return render(request, 'show_auction.html', context)
-
-
-# TODO requirements.txt

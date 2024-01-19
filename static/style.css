@@ -153,8 +153,8 @@ button.header {
     background-color: #4CAF50;
     border: none;
     color: white;
-    padding: 8px 16px; /* Adjust padding to make the button smaller */
-    font-size: 14px; /* Adjust font size */
+    padding: 8px 16px;
+    font-size: 14px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -167,35 +167,35 @@ button.header:hover {
 }
 
 .messages-container {
-    width: 100%; /* Full width of the screen */
-    padding: 15px; /* Padding around messages */
-    box-sizing: border-box; /* Include padding in the width */
-    margin-bottom: 15px; /* Add some spacing between messages and the form */
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
 }
 
 .success {
-    margin-bottom: 10px; /* Add spacing between individual messages */
-    padding: 15px; /* Padding around messages */
-    color: white; /* White text color */
-    background-color: #4CAF50; /* Default background color for messages (green) */
+    margin-bottom: 10px;
+    padding: 15px;
+    color: white;
+    background-color: #4CAF50;
 }
 
 .info {
-    margin-bottom: 10px; /* Add spacing between individual messages */
-    padding: 15px; /* Padding around messages */
-    color: white; /* White text color */
-    background-color: #2196F3; /* Blue background color for info messages */
+    margin-bottom: 10px;
+    padding: 15px;
+    color: white;
+    background-color: #2196F3;
 }
 
 .error {
-    margin-bottom: 10px; /* Add spacing between individual messages */
-    padding: 15px; /* Padding around messages */
-    color: white; /* White text color */
-    background-color: #FF5733; /* Red background color for error messages */
+    margin-bottom: 10px;
+    padding: 15px;
+    color: white;
+    background-color: #FF5733;
 }
 
 address {
-    font-style: normal; /* Set font style to normal, removing italics */
+    font-style: normal;
 }
 
 div#forgot-password {
@@ -218,18 +218,17 @@ a#forgot-password:hover {
 }
 
 button.form, input.form {
-    background-color: #e9ecef; /* Light grey background color */
-    color: #495057; /* Dark grey text color */
-    padding: 0.25rem 0.5rem; /* Slightly smaller padding */
-    font-size: 0.9rem; /* Slightly smaller font size */
-    line-height: 1.2; /* Adjusted line height */
-    border: 1px solid #e9ecef; /* Light grey border */
-    border-radius: 0.2rem; /* Slightly smaller border radius */
-    cursor: pointer; /* Add cursor pointer on hover */
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    border: 1px solid #e9ecef;
+    border-radius: 0.2rem;
+    cursor: pointer;
 }
 
 button.form:hover, input.form:hover {
-    /* Add hover effect if desired */
-    background-color: #d3d9df; /* Slightly darker grey on hover */
-    border-color: #d3d9df; /* Slightly darker border on hover */
+    background-color: #d3d9df;
+    border-color: #d3d9df;
 }

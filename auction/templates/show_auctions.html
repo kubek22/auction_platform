@@ -6,6 +6,13 @@
                 {% if auction.current_bidder == user %}
                     {# the user won the auction #}
                     <p class="green">You won the auction.</p>
+                {% elif auction.item.seller == user %}
+                    {% if auction.current_bidder is None %}
+                        <p class="red">Nobody took part in the auction.</p>
+                    {% else %}
+                        {# sold #}
+                        <p class="green">Sold.</p>
+                    {% endif %}
                 {% else %}
                     <p class="red">You did not win the auction.</p>
                 {% endif %}
