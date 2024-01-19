@@ -26,7 +26,7 @@ class Item(models.Model):
     description = models.CharField(max_length=MAX_DESCRIPTION_LENGTH, blank=True, default='')
     photo = models.ImageField()
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
-    # TODO an item can be only on one auction in the same time
+    # an item can be only on one auction in the same time
     on_auction = models.BooleanField(default=False)
 
 
@@ -59,7 +59,7 @@ class Auction(models.Model):
     def check_auction(self):
         # This method can be called to close the auction
         print(pytz.utc.localize(datetime.now()))
-        # TODO "if" statement is not needed (optional if (sleep) in end_auction)
+        # "if" statement is not really needed
         if self.active and self.end_time <= pytz.utc.localize(datetime.now()):
             # auction must be closed
             if self.current_bidder is None:
