@@ -9,7 +9,7 @@ from auction.models import Item, Auction, PRICE_DECIMAL_PLACES, MAX_PRICE_DIGITS
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        exclude = ["seller"]
+        exclude = ["seller", "on_auction"]
 
 
 class AuctionForm(forms.ModelForm):

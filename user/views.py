@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from user.forms import RegisterForm, LogInForm, ForgotPasswordForm
+from user.models import User
 
 
 # Create your views here.
@@ -13,6 +14,9 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'The user has been created.')
+            username = form.cleaned_data["username"]
+            user = User.objects.get(username=username)
+            login(request, user)
             return redirect('home')
         else:
             messages.error(request, 'The form is not valid.')
