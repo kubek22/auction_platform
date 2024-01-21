@@ -6,6 +6,6 @@ MAX_AUCTIONS = 10
 
 
 def home(request):
-    auctions = Auction.objects.filter(active=True)[:MAX_AUCTIONS]  # .order_by('?')
+    auctions = Auction.objects.filter(active=True)[:MAX_AUCTIONS]  # .order_by('?') # for random results
     context = {'auctions': auctions}
     return render(request, 'home.html', context)

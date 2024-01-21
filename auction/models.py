@@ -40,7 +40,6 @@ class Auction(models.Model):
                                         default=0)
     # optional currency
     active = models.BooleanField(default=True)
-    #current_bidder = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     current_bidder = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     bidder = models.ManyToManyField(User, related_name='bidders_auctions')
 
@@ -107,7 +106,7 @@ def run_auction_closing_process(sender, instance, **kwargs):
     end_time = instance.end_time
     close_auction(schedule=end_time, auction_id=instance.id)
 
-    # Optionally possible solve with Threads
+    # Optionally possible solution with Threads
     # start_time = instance.start_time
     # thread = threading.Thread(target=end_auction, args=(start_time, end_time, instance))
     # print("Thread started")
@@ -115,7 +114,6 @@ def run_auction_closing_process(sender, instance, **kwargs):
     # thread.start()
 
 
-# optional solution
 def convert_to_seconds(start_time, end_time):
     delta = (end_time - start_time)
     if delta.total_seconds() < 0:

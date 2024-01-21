@@ -7,7 +7,7 @@ from user.forms import LogInForm
 
 urlpatterns = [
     path('register/', views.register, name='register'),
-    # it needs replacing login.html to subdirectory
+    # optional solution
     #path('', include("django.contrib.auth.urls")),
     #path('login/', django_views.LoginView.as_view(authentication_form=LogInForm), name="login")
     path('login/', views.login_user, name='login'),

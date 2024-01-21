@@ -33,10 +33,9 @@ It provides an environment for buying and selling items through an auction proce
 
 1. Clone the repository:
     ```
-    git clone https://github.com/yourusername/django-auction-platform.git
-    cd django-auction-platform
+    git clone https://github.com/kubek22/auction_platform
+    cd auction_platform
     ```
-
 2. Create a virtual environment:
     ```
     python -m venv venv
